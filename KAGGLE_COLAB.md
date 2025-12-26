@@ -14,14 +14,20 @@ Complete guide for using llcuda on NVIDIA T4 GPUs in Kaggle and Google Colab.
 # 1. Check GPU
 !nvidia-smi
 
-# 2. Install llcuda
-!pip install -q pybind11 numpy cmake
-!git clone https://github.com/waqasm86/local-llama-cuda.git
-%cd local-llama-cuda
+# 2. Install system dependencies
+!apt-get update -qq
+!apt-get install -y cmake build-essential
+
+# 3. Install llcuda from PyPI
+!pip install -q pybind11 numpy
 
 import os
 os.environ['CUDA_ARCHITECTURES'] = '75'  # T4 GPU
-!pip install -q -e .
+
+print("🔨 Installing llcuda from PyPI... (takes 2-3 minutes)")
+!pip install llcuda --no-binary llcuda
+
+print("✅ llcuda installed!")
 
 # 3. Install llama.cpp
 !git clone https://github.com/ggerganov/llama.cpp.git /kaggle/working/llama_cpp
