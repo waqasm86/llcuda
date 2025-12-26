@@ -125,7 +125,7 @@ print(f"Throughput: {metrics['throughput']['tokens_per_sec']:.2f} tok/s")
 
 - **GPU**: NVIDIA GPU with CUDA support (T4, P100, V100, etc.)
 - **CUDA**: 11.7+ or 12.0+
-- **Python**: 3.8+
+- **Python**: 3.11+
 - **OS**: Linux (Ubuntu 20.04+, tested on Kaggle/Colab)
 
 ### Python Dependencies
