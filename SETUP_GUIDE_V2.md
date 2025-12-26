@@ -14,6 +14,28 @@ Your system is already well-configured with:
 - ✅ llama-cpp-cuda at `/media/waqasm86/External1/Project-Nvidia/llama-cpp-cuda/`
 - ✅ Gemma 3 1B model (Q4_K_M) ready to use
 
+## 📦 Pre-built Binary Available
+
+If you're setting up llcuda on a new Ubuntu 22.04 system, you can use the **pre-built llama.cpp CUDA binary** instead of building from source:
+
+**Download**: [Ubuntu-Cuda-Llama.cpp-Executable v0.1.0](https://github.com/waqasm86/Ubuntu-Cuda-Llama.cpp-Executable/releases/tag/v0.1.0)
+
+This is the **exact same binary** (commit 733c851f) that was used to develop and test llcuda v0.2.0.
+
+```bash
+# Download (290 MB compressed)
+wget https://github.com/waqasm86/Ubuntu-Cuda-Llama.cpp-Executable/releases/download/v0.1.0/llama.cpp-733c851f-bin-ubuntu-cuda-x64.tar.xz
+
+# Extract
+tar -xf llama.cpp-733c851f-bin-ubuntu-cuda-x64.tar.xz
+
+# Set environment variable
+export LLAMA_CPP_DIR=$PWD
+export LD_LIBRARY_PATH=$LLAMA_CPP_DIR/lib:${LD_LIBRARY_PATH}
+```
+
+**Saves**: ~15 minutes of build time + no need for build tools!
+
 ## 🚀 Quick Setup (5 minutes)
 
 ### Step 1: Set Environment Variables
