@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2025-12-27
+
+### Documentation
+- **Added**: Pre-built binary as recommended installation option in README.md
+- **Added**: Pre-built binary section to SETUP_GUIDE_V2.md
+- **Updated**: Installation guide now references Ubuntu-Cuda-Llama.cpp-Executable repository
+- **Improved**: Setup instructions now highlight fastest installation method (pre-built binary)
+
+### Links
+- Pre-built binary: [Ubuntu-Cuda-Llama.cpp-Executable](https://github.com/waqasm86/Ubuntu-Cuda-Llama.cpp-Executable)
+- Release v0.1.0: Contains llama.cpp commit 733c851f with CUDA 12.x support
+
 ## [0.2.0] - 2025-12-26
 
 ### 🚀 Major Release - Automatic Server Management
