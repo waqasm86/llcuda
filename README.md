@@ -28,60 +28,161 @@ High-performance Python package for running LLM inference with CUDA acceleration
 
 ## Installation
 
-### Step 1: Install llcuda
+### Complete Setup Guide (Tested on Xubuntu 22.04)
+
+Follow these steps exactly as tested on a fresh system:
+
+#### Step 1: Download and Extract llama.cpp Binary
 
 ```bash
-pip install llcuda
-```
+# Navigate to your Downloads folder (or any location)
+cd ~/Downloads
 
-### Step 2: Set up llama-server with CUDA
-
-You need llama-server executable with CUDA support. Choose one option:
-
-#### Option A: Download Pre-built Binary (Recommended for Ubuntu 22.04)
-
-**Fastest and easiest method** - Uses the same binary that llcuda was developed and tested with:
-
-```bash
 # Download pre-built llama.cpp with CUDA support (290 MB)
 wget https://github.com/waqasm86/Ubuntu-Cuda-Llama.cpp-Executable/releases/download/v0.1.0/llama.cpp-733c851f-bin-ubuntu-cuda-x64.tar.xz
 
 # Extract
 tar -xf llama.cpp-733c851f-bin-ubuntu-cuda-x64.tar.xz
 
-# Set environment variable
-export LLAMA_SERVER_PATH=$PWD/bin/llama-server
+# Enter the directory
+cd llama-cpp-cuda
 
-# Or add to your PATH
-export PATH=$PWD/bin:$PATH
+# Verify CUDA support
+./bin/llama-server --version
 ```
 
-**Requirements**: Ubuntu 22.04, NVIDIA GPU with CUDA 11.7+ or 12.x
+**Expected output:**
+```
+ggml_cuda_init: found 1 CUDA devices:
+  Device 0: NVIDIA GeForce 940M, compute capability 5.0, VMM: yes
+version: 6093 (733c851f)
+```
+
+**Save your path** (you'll need it later):
+```bash
+pwd
+# Example output: /home/waqasm86/Downloads/llama-cpp-cuda
+```
+
+#### Step 2: Download a GGUF Model
+
+Download a small model for testing and place it in the `bin/` folder:
+
+```bash
+# Inside llama-cpp-cuda directory
+cd bin
+
+# Download Gemma 3 1B (Q4_K_M quantization, ~700 MB)
+wget https://huggingface.co/google/gemma-3-1b-it-GGUF/resolve/main/gemma-3-1b-it-Q4_K_M.gguf
+
+# Return to parent directory
+cd ..
+```
+
+Or use any GGUF model from HuggingFace.
+
+#### Step 3: Install llcuda
+
+```bash
+# Install llcuda from PyPI
+pip install llcuda
+```
+
+**Requirements**: Python 3.11+, Ubuntu 22.04, NVIDIA GPU with CUDA 11.7+ or 12.x
 
 **Verified working on**: GeForce 940M (1GB VRAM) to RTX 4090
 
-#### Option B: Build from Source
+#### Step 4: Launch JupyterLab and Use llcuda
 
 ```bash
-git clone https://github.com/ggerganov/llama.cpp
-cd llama.cpp
-mkdir build && cd build
-cmake .. -DGGML_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=50  # Adjust for your GPU
-cmake --build . --config Release -j$(nproc)
+# Launch JupyterLab
+jupyter lab
 ```
 
-#### Option C: Use Existing Installation
-
-If you already have Ubuntu-Cuda-Llama.cpp-Executable or another llama.cpp installation:
-
-```bash
-# Set environment variable to your installation directory
-export LLAMA_CPP_DIR="/path/to/your/Ubuntu-Cuda-Llama.cpp-Executable"
-```
+Then in your JupyterLab notebook or Python script:
 
 ## Quick Start
 
-### Ultra-Simple Usage (Auto-Start Mode)
+### Complete JupyterLab Example (Copy-Paste Ready)
+
+This example matches the exact working setup from Xubuntu 22.04:
+
+```python
+import os
+
+# Set the path to llama-server
+pwd = '/home/waqasm86/Downloads/llama-cpp-cuda'  # Change to YOUR path from Step 1
+os.environ['LLAMA_SERVER_PATH'] = pwd + '/bin/llama-server'
+
+# Import llcuda
+import llcuda
+
+# Verify setup
+print(f"LLAMA_SERVER_PATH: {os.environ.get('LLAMA_SERVER_PATH')}")
+print(f"llcuda version: {llcuda.__version__}")
+
+# Create inference engine
+engine = llcuda.InferenceEngine()
+
+# Load model with optimized settings for GeForce 940M (1GB VRAM)
+# Adjust gpu_layers, ctx_size for your GPU
+engine.load_model(
+    pwd + "/bin/gemma-3-1b-it-Q4_K_M.gguf",  # Change to YOUR model path
+    auto_start=True,     # Automatically starts llama-server
+    gpu_layers=8,        # 8 layers on GPU (adjust for your VRAM)
+    ctx_size=512,        # Small context to save memory
+    n_parallel=1,        # Single sequence
+    verbose=True,
+    batch_size=512,      # Reduces from default 2048
+    ubatch_size=128,     # CRITICAL - reduces compute buffer
+)
+
+print("\n✓ Model loaded successfully!")
+
+# Run inference
+result = engine.infer("What is AI?", max_tokens=100)
+
+# Display result
+if result.success:
+    print("\n" + "="*60)
+    print("Generated Text:")
+    print("="*60)
+    print(result.text)
+    print("="*60)
+    print(f"\nPerformance:")
+    print(f"  Tokens: {result.tokens_generated}")
+    print(f"  Speed: {result.tokens_per_sec:.1f} tok/s")
+    print(f"  Latency: {result.latency_ms:.0f}ms")
+else:
+    print(f"Error: {result.error_message}")
+```
+
+**Expected output:**
+```
+LLAMA_SERVER_PATH: /home/waqasm86/Downloads/llama-cpp-cuda/bin/llama-server
+llcuda version: 0.2.0
+
+✓ Model loaded and ready for inference
+✓ Model loaded successfully!
+
+============================================================
+Generated Text:
+============================================================
+AI, or Artificial Intelligence, is essentially the ability of a
+computer or machine to perform tasks that typically require human
+intelligence. These tasks include things like learning, problem-
+solving, decision-making, and even understanding language...
+============================================================
+
+Performance:
+  Tokens: 100
+  Speed: 12.2 tok/s
+  Latency: 8217ms
+```
+
+### Simplified Usage (After Setting Environment Variable)
+
+Once `LLAMA_SERVER_PATH` is set, you can use this simpler form:
 
 ```python
 import llcuda
@@ -91,7 +192,7 @@ engine = llcuda.InferenceEngine()
 engine.load_model(
     "/path/to/model.gguf",
     auto_start=True,  # Automatically starts llama-server
-    gpu_layers=99     # Offload all layers to GPU
+    gpu_layers=20     # Adjust for your GPU VRAM
 )
 
 # Run inference
@@ -100,7 +201,7 @@ print(result.text)
 print(f"Speed: {result.tokens_per_sec:.1f} tokens/sec")
 ```
 
-### JupyterLab Usage
+### Advanced: Context Manager Usage
 
 ```python
 import llcuda
@@ -114,7 +215,7 @@ print(f"Found {len(models)} models")
 
 # Use auto-start with context manager
 with llcuda.InferenceEngine() as engine:
-    engine.load_model(models[0], auto_start=True)
+    engine.load_model(models[0], auto_start=True, gpu_layers=20)
     result = engine.infer("Explain quantum computing")
     print(result.text)
 # Server automatically stopped when exiting context
