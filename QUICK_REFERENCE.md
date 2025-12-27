@@ -4,7 +4,7 @@
 
 ```bash
 # 1. Set environment variables (add to ~/.bashrc)
-export LLAMA_CPP_DIR="/media/waqasm86/External1/Project-Nvidia/llama-cpp-cuda"
+export LLAMA_CPP_DIR="/media/waqasm86/External1/Project-Nvidia/Ubuntu-Cuda-Llama.cpp-Executable"
 export LD_LIBRARY_PATH="$LLAMA_CPP_DIR/lib:${LD_LIBRARY_PATH}"
 
 # 2. Install llcuda
@@ -26,7 +26,7 @@ import llcuda
 
 engine = llcuda.InferenceEngine()
 engine.load_model(
-    "/media/waqasm86/External1/Project-Nvidia/llama-cpp-cuda/bin/gemma-3-1b-it-Q4_K_M.gguf",
+    "/media/waqasm86/External1/Project-Nvidia/Ubuntu-Cuda-Llama.cpp-Executable/bin/gemma-3-1b-it-Q4_K_M.gguf",
     auto_start=True,
     gpu_layers=20
 )

@@ -34,7 +34,7 @@ High-performance Python package for running LLM inference with CUDA acceleration
 pip install llcuda
 ```
 
-### Step 2: Set up llama-cpp-cuda
+### Step 2: Set up llama-server with CUDA
 
 You need llama-server executable with CUDA support. Choose one option:
 
@@ -72,11 +72,11 @@ cmake --build . --config Release -j$(nproc)
 
 #### Option C: Use Existing Installation
 
-If you already have llama-cpp-cuda installed:
+If you already have Ubuntu-Cuda-Llama.cpp-Executable or another llama.cpp installation:
 
 ```bash
-# Set environment variable to your llama-cpp-cuda directory
-export LLAMA_CPP_DIR="/path/to/your/llama-cpp-cuda"
+# Set environment variable to your installation directory
+export LLAMA_CPP_DIR="/path/to/your/Ubuntu-Cuda-Llama.cpp-Executable"
 ```
 
 ## Quick Start
@@ -290,7 +290,7 @@ Result object from inference.
 - `get_cuda_device_info()` - Get GPU information
 - `detect_cuda()` - Detailed CUDA detection
 - `find_gguf_models(directory=None)` - Find GGUF models
-- `get_llama_cpp_cuda_path()` - Find llama-cpp-cuda installation
+- `get_llama_cpp_cuda_path()` - Find Ubuntu-Cuda-Llama.cpp-Executable installation
 - `print_system_info()` - Print comprehensive system info
 - `setup_environment()` - Setup environment variables
 - `quick_infer(prompt, model_path=None, ...)` - One-liner inference
@@ -299,14 +299,14 @@ Result object from inference.
 
 ### Environment Variables
 
-- `LLAMA_CPP_DIR` - Path to llama-cpp-cuda installation
+- `LLAMA_CPP_DIR` - Path to Ubuntu-Cuda-Llama.cpp-Executable installation
 - `LLAMA_SERVER_PATH` - Direct path to llama-server executable
 - `CUDA_VISIBLE_DEVICES` - Which GPUs to use
 
 Example `.bashrc` / `.profile`:
 
 ```bash
-export LLAMA_CPP_DIR="/media/waqasm86/External1/Project-Nvidia/llama-cpp-cuda"
+export LLAMA_CPP_DIR="/media/waqasm86/External1/Project-Nvidia/Ubuntu-Cuda-Llama.cpp-Executable"
 export LD_LIBRARY_PATH="$LLAMA_CPP_DIR/lib:$LD_LIBRARY_PATH"
 ```
 
@@ -396,7 +396,7 @@ llcuda.print_system_info()
 This will show:
 - Python version and executable
 - CUDA availability and GPU info
-- llama-cpp-cuda installation status
+- Ubuntu-Cuda-Llama.cpp-Executable installation status
 - Available GGUF models
 
 ## Examples

@@ -80,10 +80,10 @@ def detect_cuda() -> Dict[str, Any]:
 
 def get_llama_cpp_cuda_path() -> Optional[Path]:
     """
-    Get the path to llama-cpp-cuda installation if it exists.
+    Get the path to Ubuntu-Cuda-Llama.cpp-Executable installation if it exists.
 
     Returns:
-        Path to llama-cpp-cuda directory, or None if not found
+        Path to Ubuntu-Cuda-Llama.cpp-Executable directory, or None if not found
     """
     # Check environment variable first
     env_path = os.getenv('LLAMA_CPP_DIR')
@@ -94,10 +94,10 @@ def get_llama_cpp_cuda_path() -> Optional[Path]:
 
     # Check common locations
     possible_paths = [
-        Path('/media/waqasm86/External1/Project-Nvidia/llama-cpp-cuda'),
-        Path.home() / 'llama-cpp-cuda',
-        Path.cwd() / 'llama-cpp-cuda',
-        Path('/opt/llama-cpp-cuda'),
+        Path('/media/waqasm86/External1/Project-Nvidia/Ubuntu-Cuda-Llama.cpp-Executable'),
+        Path.home() / 'Ubuntu-Cuda-Llama.cpp-Executable',
+        Path.cwd() / 'Ubuntu-Cuda-Llama.cpp-Executable',
+        Path('/opt/Ubuntu-Cuda-Llama.cpp-Executable'),
     ]
 
     for path in possible_paths:
@@ -116,7 +116,7 @@ def setup_environment() -> Dict[str, str]:
     """
     env_vars = {}
 
-    # Set llama-cpp-cuda path if found
+    # Set Ubuntu-Cuda-Llama.cpp-Executable path if found
     llama_cpp_path = get_llama_cpp_cuda_path()
     if llama_cpp_path and 'LLAMA_CPP_DIR' not in os.environ:
         os.environ['LLAMA_CPP_DIR'] = str(llama_cpp_path)
@@ -147,7 +147,7 @@ def find_gguf_models(directory: str = None) -> List[Path]:
     Find GGUF model files in a directory.
 
     Args:
-        directory: Directory to search (default: llama-cpp-cuda/bin and current directory)
+        directory: Directory to search (default: Ubuntu-Cuda-Llama.cpp-Executable/bin and current directory)
 
     Returns:
         List of paths to GGUF model files
@@ -184,7 +184,7 @@ def print_system_info():
     - Python version and executable
     - Operating system
     - CUDA availability and GPU info
-    - llama-cpp-cuda installation status
+    - Ubuntu-Cuda-Llama.cpp-Executable installation status
     - Available GGUF models
     """
     import sys
@@ -217,9 +217,9 @@ def print_system_info():
             print(f"      Driver: {gpu['driver_version']}")
             print(f"      Compute: {gpu['compute_capability']}")
 
-    # llama-cpp-cuda info
+    # Ubuntu-Cuda-Llama.cpp-Executable info
     llama_cpp_path = get_llama_cpp_cuda_path()
-    print(f"\nllama-cpp-cuda:")
+    print(f"\nUbuntu-Cuda-Llama.cpp-Executable:")
     if llama_cpp_path:
         print(f"  Found: Yes")
         print(f"  Location: {llama_cpp_path}")

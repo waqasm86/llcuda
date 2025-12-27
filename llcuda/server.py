@@ -52,7 +52,7 @@ class ServerManager:
         Searches in the following order:
         1. LLAMA_SERVER_PATH environment variable
         2. LLAMA_CPP_DIR environment variable + /bin/llama-server
-        3. User's project directory (llama-cpp-cuda)
+        3. User's project directory (Ubuntu-Cuda-Llama.cpp-Executable)
         4. System PATH locations
         5. ~/.llcuda/bin/llama-server
 
@@ -73,11 +73,11 @@ class ServerManager:
             if path.exists():
                 return path
 
-        # Priority 3: Project-specific location (llama-cpp-cuda)
+        # Priority 3: Project-specific location (Ubuntu-Cuda-Llama.cpp-Executable)
         project_paths = [
-            Path('/media/waqasm86/External1/Project-Nvidia/llama-cpp-cuda/bin/llama-server'),
-            Path.home() / 'llama-cpp-cuda' / 'bin' / 'llama-server',
-            Path.cwd() / 'llama-cpp-cuda' / 'bin' / 'llama-server',
+            Path('/media/waqasm86/External1/Project-Nvidia/Ubuntu-Cuda-Llama.cpp-Executable/bin/llama-server'),
+            Path.home() / 'Ubuntu-Cuda-Llama.cpp-Executable' / 'bin' / 'llama-server',
+            Path.cwd() / 'Ubuntu-Cuda-Llama.cpp-Executable' / 'bin' / 'llama-server',
         ]
 
         for path in project_paths:

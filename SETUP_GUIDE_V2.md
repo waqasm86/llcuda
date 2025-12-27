@@ -11,7 +11,7 @@ Your system is already well-configured with:
 - ✅ NVIDIA GeForce 940M GPU (1GB VRAM)
 - ✅ CUDA 12.8 with driver 570.195.03
 - ✅ JupyterLab installed
-- ✅ llama-cpp-cuda at `/media/waqasm86/External1/Project-Nvidia/llama-cpp-cuda/`
+- ✅ llama-cpp-cuda at `/media/waqasm86/External1/Project-Nvidia/Ubuntu-Cuda-Llama.cpp-Executable/`
 - ✅ Gemma 3 1B model (Q4_K_M) ready to use
 
 ## 📦 Pre-built Binary Available
@@ -44,7 +44,7 @@ Add these to your `~/.bashrc`:
 
 ```bash
 # llcuda environment
-export LLAMA_CPP_DIR="/media/waqasm86/External1/Project-Nvidia/llama-cpp-cuda"
+export LLAMA_CPP_DIR="/media/waqasm86/External1/Project-Nvidia/Ubuntu-Cuda-Llama.cpp-Executable"
 export LD_LIBRARY_PATH="$LLAMA_CPP_DIR/lib:${LD_LIBRARY_PATH}"
 export PATH="/usr/local/bin:$PATH"  # Ensure Python 3.11 is first
 ```
@@ -99,7 +99,7 @@ engine = llcuda.InferenceEngine()
 
 # This automatically finds llama-server and starts it
 engine.load_model(
-    "/media/waqasm86/External1/Project-Nvidia/llama-cpp-cuda/bin/gemma-3-1b-it-Q4_K_M.gguf",
+    "/media/waqasm86/External1/Project-Nvidia/Ubuntu-Cuda-Llama.cpp-Executable/bin/gemma-3-1b-it-Q4_K_M.gguf",
     auto_start=True,
     gpu_layers=20,  # Use 20 layers on GPU (safe for 1GB VRAM)
     ctx_size=2048
@@ -261,7 +261,7 @@ manager.stop_server()
 
 **Solution 1**: Set environment variable
 ```bash
-export LLAMA_CPP_DIR="/media/waqasm86/External1/Project-Nvidia/llama-cpp-cuda"
+export LLAMA_CPP_DIR="/media/waqasm86/External1/Project-Nvidia/Ubuntu-Cuda-Llama.cpp-Executable"
 ```
 
 **Solution 2**: Check path
@@ -286,8 +286,8 @@ engine.load_model(model_path, auto_start=True, ctx_size=1024)
 
 **Solution**: Check server manually
 ```bash
-/media/waqasm86/External1/Project-Nvidia/llama-cpp-cuda/bin/llama-server \
-  -m /media/waqasm86/External1/Project-Nvidia/llama-cpp-cuda/bin/gemma-3-1b-it-Q4_K_M.gguf \
+/media/waqasm86/External1/Project-Nvidia/Ubuntu-Cuda-Llama.cpp-Executable/bin/llama-server \
+  -m /media/waqasm86/External1/Project-Nvidia/Ubuntu-Cuda-Llama.cpp-Executable/bin/gemma-3-1b-it-Q4_K_M.gguf \
   --port 8090 \
   -ngl 20 \
   -c 2048
